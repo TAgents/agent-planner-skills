@@ -136,7 +136,7 @@ Run /ap-retro
 
 Run /ap-learn
 → Key decisions and lessons from this sprint → AP knowledge episodes
-→ Available to future agents via get_task_context
+→ Available to future agents via task_context
 ```
 
 ---

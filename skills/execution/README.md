@@ -24,19 +24,16 @@ With the AgentPlanner MCP server active in the same Claude Code session, these s
 
 **Before running a skill** — Claude reads task context:
 ```
-get_task_context({ node_id: "<task_id>", depth: 2 })
+task_context({ node_id: "<task_id>", depth: 2 })
 ```
 
 **After running a skill** — Claude updates AP state:
 ```
-# Log what the skill found
-add_log({ plan_id, node_id, content: "review: fixed 2 issues, flagged 1 race condition", log_type: "progress" })
+# Log findings + update status in one atomic call
+update_task({ node_id, status: "in_review", log_message: "review: fixed 2 issues, flagged 1 race condition" })  // status can be completed, blocked, etc.
 
-# Update task status
-quick_status({ node_id, status: "in_review" })  // or completed, blocked, etc.
-
-# Bug found by /qa? Create a child task
-create_node({ parent_id: phase_id, title: "Fix: [bug description]", node_type: "task" })
+# Bug found by /qa? Add a child task under the phase
+extend_intention({ parent_id: phase_id, title: "Fix: [bug description]", node_type: "task" })
 
 # Key decision during /investigate? Persist to knowledge graph
 add_learning({ content: "Root cause was X because Y", plan_id, node_id })

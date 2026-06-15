@@ -61,7 +61,7 @@ Add to your `claude_desktop_config.json` or `.mcp.json`:
 ```
 
 That's the bridge. With both gstack and the AP MCP server active in the same Claude Code session, the agent can:
-- Read task context from AP (`get_task_context`)
+- Read task context from AP (`task_context`)
 - Run gstack quality gates (`/review`, `/qa`, `/ship`)
 - Update AP task state and log progress
 

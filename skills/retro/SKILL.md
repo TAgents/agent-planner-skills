@@ -90,4 +90,4 @@ These skills close the feedback loop — feeding execution results back into the
    ```
    Confirm it appears in results.
 
-**Output:** Knowledge episodes stored in AP — available to any future agent via get_task_context or graph-search
+**Output:** Knowledge episodes stored in AP — available to any future agent via task_context or graph-search
