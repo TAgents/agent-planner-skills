@@ -25,8 +25,8 @@ Reference: `skills/retro/SKILL.md`
 ## Pipeline
 
 ```
-New goal → /ap-clarify → /ap-scope → /ap-okr
-         → Create AgentPlanner plan (KRs become milestones)
+New goal → /ap-clarify → /ap-scope → /ap-okr → create_goal (the Goal itself, MCP 1.4+)
+         → form_intention (plan that achieves the goal; KRs become milestones)
          → Implement tasks
          → Task in_review: /review
          → Task in_qa: /qa <staging-url>
@@ -36,11 +36,11 @@ New goal → /ap-clarify → /ap-scope → /ap-okr
 
 ## AgentPlanner Integration
 
-This repo requires the AgentPlanner MCP server. With it connected, skills automatically:
-- Read task context before running (`get_task_context`)
-- Post findings back as AP log entries (`add_log`)
-- Update task state (`quick_status`)
-- Create tasks for bugs found (`create_node`)
+This repo requires the AgentPlanner MCP server (v1.4+). With it connected, skills automatically:
+- Read task context before running (`task_context`)
+- Post findings + update state in one call (`update_task` with `log_message` / `status`)
+- Create the goal directly (`create_goal`) and the plan (`form_intention`)
+- Create/adjust tasks for bugs found (`update_node`)
 - Persist decisions to the knowledge graph (`add_learning`)
 
 See `MCP.md` for the full relationship between this repo and `agent-planner-mcp`.

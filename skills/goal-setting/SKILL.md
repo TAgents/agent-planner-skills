@@ -1,8 +1,8 @@
 # Goal Setting Skills for AgentPlanner
 
-These skills run **before** creating an AgentPlanner plan. They transform a vague goal into a well-defined, structured brief that becomes the foundation of your plan.
+These skills run **before** creating an AgentPlanner plan. They transform a vague goal into a well-defined, structured brief — and, as of **MCP 1.4+**, the agent then **creates the goal directly** with `create_goal` (no UI step) before any plan exists.
 
-Run them in order: clarify → scope → okr → anti-goal → assumptions
+Run them in order: clarify → scope → okr (**creates the Goal**) → anti-goal → assumptions
 
 ---
 
@@ -80,14 +80,25 @@ Run them in order: clarify → scope → okr → anti-goal → assumptions
 
 3. Sanity check: "If we hit all 5 KRs, would you call this a success? Is any KR achievable without the others?"
 
-4. Map KRs to AgentPlanner milestones:
+4. **Create the AgentPlanner Goal** (MCP 1.4+ — agents create goals directly; no UI step):
    ```
-   Create milestone for each KR in the AP plan.
-   Set milestone title = KR description.
-   Set milestone description = how to verify this KR is met.
+   create_goal({
+     title:            <the Objective>,
+     description:      <the Goal Brief from /ap-clarify + scope decision>,
+     type:             'outcome',          // or metric | constraint | principle
+     success_criteria: [<KR1>, <KR2>, ...],
+     status:           'active'            // 'draft' if proposing autonomously
+   })
+   ```
+   This returns a `goal_id`. Everything downstream (the plan, milestones) hangs off it.
+
+5. Map KRs to milestones **in the plan that achieves this goal**:
+   ```
+   form_intention({ goal_id, title, tree: [ ... ] })  // or create the plan, then milestones per KR
+   Set each milestone title = KR description, description = how to verify the KR is met.
    ```
 
-**Output:** 1 Objective + 3-5 Key Results → create as AP milestones immediately
+**Output:** A real AgentPlanner **Goal** (`create_goal`) + its KRs as milestones on the achieving plan.
 
 ---
 
